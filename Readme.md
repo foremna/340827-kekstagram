@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url]
 
 * Студент: [Лада Пенькова](https://up.htmlacademy.ru/javascript/16/user/340827).
-* Наставник: `Неизвестно`.
+* Наставник: [Отстутствует](NOT-DEFINED).
 
 ---
 
