@@ -4,6 +4,24 @@ var commentaries = ['Всё отлично! В целом всё неплохо.
 
 var tags = ['Тестим новую камеру!', 'Затусили с друзьями на море', 'Как же круто тут кормят', 'Отдыхаем...', 'Цените каждое мгновенье. Цените тех, кто рядом с вами и отгоняйте все сомненья. Не обижайте всех словами......', 'Вот это тачка!'];
 
+var openPhoto = document.querySelector('.big-picture'); // блок открытой фотографии
+var openPhotoImage = openPhoto.querySelector('.big-picture__img'); // фото открытой фотографии
+var openPhotoLikes = openPhoto.querySelector('.likes-count'); // лайки открытой фотографии
+var openPhotoCaption = openPhoto.querySelector('.social__caption'); // комментарий открытой фотографии
+
+var openPhotoSocialComments = openPhoto.querySelector('.social__comments'); // блок с комментариями
+var openPhotoComment = openPhotoSocialComments.querySelector('.social__comment'); // комментарий
+var openPhotoCommentsCaption = openPhoto.querySelector('.social__comment-count'); // счётчик комментариев
+var openPhotoCommentsLoader = openPhoto.querySelector('.comments-loader'); // загрузка новых комментариев
+
+var pictureTemplate = document.querySelector('#picture') // шаблон карточки товара
+.content
+.querySelector('.picture');
+var pictureImage = pictureTemplate.querySelector('.picture__img'); // фото карточки
+var pictureLikes = pictureTemplate.querySelector('.picture__likes'); // лайки карточки
+var pictureComments = pictureTemplate.querySelector('.picture__comments'); // описание карточки
+var containerPictures = document.querySelector('.pictures'); // контейнер для хранения карточек
+
 var getRandomInRange = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
@@ -49,13 +67,6 @@ var getSidawaysDataArray = function () {
 var picture = getSidawaysDataArray();
 
 var createPictures = function () {
-  var pictureTemplate = document.querySelector('#picture') // шаблон карточки товара
-  .content
-  .querySelector('.picture');
-  var pictureImage = pictureTemplate.querySelector('.picture__img'); // фото карточки
-  var pictureLikes = pictureTemplate.querySelector('.picture__likes'); // лайки карточки
-  var pictureComments = pictureTemplate.querySelector('.picture__comments'); // описание карточки
-  var containerPictures = document.querySelector('.pictures'); // контейнер для хранения карточек
   var fragment = document.createDocumentFragment();
 
   for (var i = 0; i < 26; i++) {
@@ -71,18 +82,6 @@ var createPictures = function () {
 
 createPictures();
 
-var openPhoto = document.querySelector('.big-picture'); // блок открытой фотографии
-// openPhoto.classList.remove('hidden'); // убирает скрывающий класс у блока открытой фотографии // ВРЕМЕННО ЗАКРЫТ, ПОКА РАЗРАБАТЫВАЕТСЯ КОД ЗАГРУЗКИ ФОТО
-var openPhotoImage = openPhoto.querySelector('.big-picture__img'); // фото открытой фотографии
-var openPhotoLikes = openPhoto.querySelector('.likes-count'); // лайки открытой фотографии
-// var openPhotoDescribe = openPhoto.querySelector('.comments-count'); // описание открытой фотографии
-var openPhotoCaption = openPhoto.querySelector('.social__caption'); // комментарий открытой фотографии
-
-var openPhotoSocialComments = openPhoto.querySelector('.social__comments'); // блок с комментариями
-var openPhotoComment = openPhotoSocialComments.querySelector('.social__comment'); // комментарий
-var openPhotoCommentsCaption = openPhoto.querySelector('.social__comment-count'); // счётчик комментариев
-var openPhotoCommentsLoader = openPhoto.querySelector('.comments-loader'); // загрузка новых комментариев
-
 var createOpenPhoto = function () {
   openPhotoImage.src = picture[0].url;
   openPhotoLikes.textContent = picture[0].likes;
@@ -91,11 +90,10 @@ var createOpenPhoto = function () {
   openPhotoCaption.innerHTML = picture[0].description; // добавляет комментарии из массива
 };
 
-createOpenPhoto();
-
 var hidesClasses = function () {
   openPhotoCommentsCaption.classList.add('visually-hidden'); // прячет счётчик комментариев
   openPhotoCommentsLoader.classList.add('visually-hidden'); // прячет загрузку новых комментариев
 };
 
+createOpenPhoto();
 hidesClasses();
