@@ -2,15 +2,15 @@
 
 var commentaries = ['Всё отлично! В целом всё неплохо. Но не всё.', 'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.', 'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.', 'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.', 'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'];
 
-var tag = ['Тестим новую камеру!', 'Затусили с друзьями на море', 'Как же круто тут кормят', 'Отдыхаем...', 'Цените каждое мгновенье. Цените тех, кто рядом с вами и отгоняйте все сомненья. Не обижайте всех словами......', 'Вот это тачка!'];
+var tags = ['Тестим новую камеру!', 'Затусили с друзьями на море', 'Как же круто тут кормят', 'Отдыхаем...', 'Цените каждое мгновенье. Цените тех, кто рядом с вами и отгоняйте все сомненья. Не обижайте всех словами......', 'Вот это тачка!'];
 
 var getRandomInRange = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
 var getRandElement = function () {
-  var rand = Math.floor(Math.random() * tag.length);
-  return tag[rand];
+  var rand = Math.floor(Math.random() * tags.length);
+  return tags[rand];
 };
 
 var shuffleArray = function (array) {
@@ -35,12 +35,12 @@ var getRandomTastes = function (array) {
 
 var getSidawaysDataArray = function () {
   var picture = [];
-  for (var i = 1; i < 27; i++) {
+  for (var i = 0; i < 26; i++) {
     picture[i] = {
-      url: ('photos/' + i + '.jpg'), // фото карточки
+      url: ('photos/' + (i + 1) + '.jpg'), // фото карточки
       likes: getRandomInRange(15, 200), // лайки карточки
       comments: getRandomTastes(commentaries), // описание карточки
-      description: getRandElement(tag) // тэг карточки
+      description: getRandElement(tags) // тэг карточки
     };
   }
   return picture;
@@ -58,7 +58,7 @@ var createPictures = function () {
   var containerPictures = document.querySelector('.pictures'); // контейнер для хранения карточек
   var fragment = document.createDocumentFragment();
 
-  for (var i = 1; i < 27; i++) {
+  for (var i = 0; i < 26; i++) {
     var pisturesCards = pictureTemplate.cloneNode(true);
     pictureImage.src = picture[i].url; // на каждой иттерации цикла берем из объекта значение url-фотку из массива picture
     pictureLikes.textContent = picture[i].likes; // на каждой иттерации цикла берем из объекта значение likes-лайки из массива picture
@@ -84,11 +84,11 @@ var openPhotoCommentsCaption = openPhoto.querySelector('.social__comment-count')
 var openPhotoCommentsLoader = openPhoto.querySelector('.comments-loader'); // загрузка новых комментариев
 
 var createOpenPhoto = function () {
-  openPhotoImage.src = picture[1].url;
-  openPhotoLikes.textContent = picture[1].likes;
-  openPhotoComment.textContent = picture[1].comments;
+  openPhotoImage.src = picture[0].url;
+  openPhotoLikes.textContent = picture[0].likes;
+  openPhotoComment.textContent = picture[0].comments;
   openPhotoSocialComments.innerHTML = '<li class=\"social__comment\"><img class=\"social__picture\" src=\"img/avatar-' + getRandomInRange(1, 6) + '.svg\" alt=\"Аватар комментатора фотографии\" width=\"35\" height=\"35\"><p class=\"social__text\">' + picture[1].comments + '</p></li>';
-  openPhotoCaption.innerHTML = picture[1].description; // добавляет комментарии из массива
+  openPhotoCaption.innerHTML = picture[0].description; // добавляет комментарии из массива
 };
 
 createOpenPhoto();
@@ -99,5 +99,3 @@ var hidesClasses = function () {
 };
 
 hidesClasses();
-
-
