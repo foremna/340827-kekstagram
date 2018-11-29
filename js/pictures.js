@@ -164,20 +164,49 @@ function switchFiltersPhoto (evt) {
     previewPhoto.classList.remove(effects[0]);
     effectLevel.classList.remove('hidden'); // При выборе эффекта не «Оригинал» слайдер показывается.
   };
+  switchFilterNaturation();
+  resetEffectInitialState(); // должен сбрасывать положение пина до начального состояния
 }
 
 listEffects.addEventListener('click', switchFiltersPhoto);
-
-function resetEffectInitialState () {
-  effectValue;
-  inputEffectCheckeds;
-  previewPhoto.style.filter = getFilterStyle();
-};
 
 var effectLevelPin = document.querySelector('.effect-level__pin'); // пин
 var effectValue = document.querySelector('.effect-level__value'); // поле, куда записывается значение вычислений
 var effectLine = document.querySelector('.effect-level__line'); // вся линия слайдера
 var effectDepth = document.querySelector('.effect-level__depth'); // глубина слайдера
+
+function switchFilterNaturation () { // устанавливает насыщенность фильтра
+  var effectPinWidth = effectLevelPin.offsetWidth;
+  var effectDepthWidth = effectDepth.offsetWidth;
+
+  var inputEffectCheckeds = document.querySelector('input[name=effect]:checked').value;
+  console.log(inputEffectCheckeds);
+
+  var effectValue = (effectDepthWidth / effectLine.offsetWidth);
+
+  function getFilterStyle () {
+    switch (inputEffectCheckeds) {
+      case 'chrome':
+        return 'grayscale(' + effectValue * 1 + ')';
+      case 'sepia':
+        return 'sepia(' + effectValue * 1 + ')';
+      case 'marvin':
+        return 'invert(' + effectValue * 100 + '%)';
+      case 'phobos':
+        return 'blur(' + effectValue * 3 + 'px)';
+      case 'heat':
+        return 'brightness(' + effectValue * 1 + 2 + ')';
+    }
+  };
+
+  previewPhoto.style.filter = getFilterStyle();
+};
+
+function resetEffectInitialState () { // сбрасывает положение пина до начального состояния
+  effectValue;
+  inputEffectCheckeds;
+  previewPhoto.style.filter = getFilterStyle();
+};
 
 effectLevelPin.onmousedown = function (evt) {
   var pinCoords = getCoords(effectLevelPin); // координаты пина
@@ -199,32 +228,7 @@ effectLevelPin.onmousedown = function (evt) {
 
     effectLevelPin.style.left = newLeft + 'px';
     effectDepth.style.width = newLeft + 'px'; // желтая линия ползет вслед за пином!
-
-    var effectPinWidth = effectLevelPin.offsetWidth;
-    var effectDepthWidth = effectDepth.offsetWidth;
-
-    var inputEffectCheckeds = document.querySelector('input[name=effect]:checked').value;
-    console.log(inputEffectCheckeds);
-
-    var effectValue = (effectDepthWidth / effectLine.offsetWidth);
-
-    function getFilterStyle () {
-      switch (inputEffectCheckeds) {
-        case 'chrome':
-          return 'grayscale(' + effectValue * 1 + ')';
-        case 'sepia':
-          return 'sepia(' + effectValue * 1 + ')';
-        case 'marvin':
-          return 'invert(' + effectValue * 100 + '%)';
-        case 'phobos':
-          return 'blur(' + effectValue * 3 + 'px)';
-        case 'heat':
-          return 'brightness(' + effectValue * 1 + 2 + ')';
-      }
-    };
-
-    previewPhoto.style.filter = getFilterStyle();
-
+    switchFilterNaturation(); // насыщенность фильтра
   };
 
   document.onmouseup = function () {
