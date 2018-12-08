@@ -1,26 +1,11 @@
+// модуль создания данных data.js
 'use strict';
 
 var commentaries = ['Всё отлично! В целом всё неплохо. Но не всё.', 'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.', 'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.', 'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.', 'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'];
 
 var tags = ['Тестим новую камеру!', 'Затусили с друзьями на море', 'Как же круто тут кормят', 'Отдыхаем...', 'Цените каждое мгновенье. Цените тех, кто рядом с вами и отгоняйте все сомненья. Не обижайте всех словами......', 'Вот это тачка!'];
 
-var openPhoto = document.querySelector('.big-picture'); // блок открытой фотографии
-var openPhotoImage = openPhoto.querySelector('.big-picture__img'); // фото открытой фотографии
-var openPhotoLikes = openPhoto.querySelector('.likes-count'); // лайки открытой фотографии
-var openPhotoCaption = openPhoto.querySelector('.social__caption'); // комментарий открытой фотографии
-
-var openPhotoSocialComments = openPhoto.querySelector('.social__comments'); // блок с комментариями
-var openPhotoComment = openPhotoSocialComments.querySelector('.social__comment'); // комментарий
-var openPhotoCommentsCaption = openPhoto.querySelector('.social__comment-count'); // счётчик комментариев
-var openPhotoCommentsLoader = openPhoto.querySelector('.comments-loader'); // загрузка новых комментариев
-
-var pictureTemplate = document.querySelector('#picture') // шаблон карточки товара
-.content
-.querySelector('.picture');
-var pictureImage = pictureTemplate.querySelector('.picture__img'); // фото карточки
-var pictureLikes = pictureTemplate.querySelector('.picture__likes'); // лайки карточки
-var pictureComments = pictureTemplate.querySelector('.picture__comments'); // описание карточки
-var containerPictures = document.querySelector('.pictures'); // контейнер для хранения карточек
+var ESC_KEYCODE = 27;
 
 var getRandomInRange = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -43,7 +28,7 @@ var shuffleArray = function (array) {
   return array;
 };
 
-var getRandomTastes = function (array) {
+var getRandomComments = function (array) {
   array = shuffleArray(array);
 
   var randomLength = getRandomInRange(1, array.length);
@@ -57,7 +42,7 @@ var getSidawaysDataArray = function () {
     picture[i] = {
       url: ('photos/' + (i + 1) + '.jpg'), // фото карточки
       likes: getRandomInRange(15, 200), // лайки карточки
-      comments: getRandomTastes(commentaries), // описание карточки
+      comments: getRandomComments(commentaries), // описание карточки
       description: getRandElement(tags) // тэг карточки
     };
   }
@@ -66,12 +51,24 @@ var getSidawaysDataArray = function () {
 
 var picture = getSidawaysDataArray();
 
+
+// модуль создания галлереи gallery.js
+
 var createPictures = function () {
+  var pictureTemplate = document.querySelector('#picture') // шаблон карточки товара
+  .content
+  .querySelector('.picture');
+  var pictureImage = pictureTemplate.querySelector('.picture__img'); // фото карточки
+  var pictureLikes = pictureTemplate.querySelector('.picture__likes'); // лайки карточки
+  var pictureComments = pictureTemplate.querySelector('.picture__comments'); // описание карточки
+  var containerPictures = document.querySelector('.pictures'); // контейнер для хранения карточек
+
   var fragment = document.createDocumentFragment();
 
   for (var i = 0; i < 26; i++) {
     var pisturesCards = pictureTemplate.cloneNode(true);
     pictureImage.src = picture[i].url; // на каждой иттерации цикла берем из объекта значение url-фотку из массива picture
+    pictureImage.dataset.id = i;
     pictureLikes.textContent = picture[i].likes; // на каждой иттерации цикла берем из объекта значение likes-лайки из массива picture
     pictureComments.textContent = picture[i].comments; // на каждой иттерации цикла берем из объекта значение comments-описание из массива picture
     fragment.appendChild(pisturesCards);
@@ -82,63 +79,98 @@ var createPictures = function () {
 
 createPictures();
 
-var createOpenPhoto = function () {
-  openPhotoImage.src = picture[0].url;
-  openPhotoLikes.textContent = picture[0].likes;
-  openPhotoComment.textContent = picture[0].comments;
-  openPhotoSocialComments.innerHTML = '<li class=\"social__comment\"><img class=\"social__picture\" src=\"img/avatar-' + getRandomInRange(1, 6) + '.svg\" alt=\"Аватар комментатора фотографии\" width=\"35\" height=\"35\"><p class=\"social__text\">' + picture[1].comments + '</p></li>';
-  openPhotoCaption.innerHTML = picture[0].description; // добавляет комментарии из массива
+// модуль создания миниатюры preview.js
+
+var picturesContainer = document.querySelector('.pictures'); // контейнер для всех фото
+var openPhoto = document.querySelector('.big-picture'); // блок открытой фотографии
+var openPhotoImage = openPhoto.querySelector('.big-picture__img'); // фото открытой фотографии
+var openPhotoImg = openPhotoImage.querySelector('img');
+var openPhotoLikes = openPhoto.querySelector('.likes-count'); // лайки открытой фотографии
+var openPhotoCaption = openPhoto.querySelector('.social__caption'); // комментарий открытой фотографии
+
+var openPhotoSocialComments = openPhoto.querySelector('.social__comments'); // блок с комментариями
+var openPhotoComment = openPhotoSocialComments.querySelector('.social__comment'); // комментарий
+var openPhotoCommentsCaption = openPhoto.querySelector('.social__comment-count'); // счётчик комментариев
+var openPhotoCommentsLoader = openPhoto.querySelector('.comments-loader'); // загрузка новых комментариев
+
+var createOpenPhoto = function (pic) { // создание данных для открытой фото
+  openPhotoImg.src = pic.url;
+  openPhotoImg.alt = 'Случайная фотография';
+  openPhotoLikes.textContent = pic.likes;
+  openPhotoComment.textContent = pic.comments;
+  openPhotoSocialComments.innerHTML = '<li class=\"social__comment\"><img class=\"social__picture\" src=\"img/avatar-' + getRandomInRange(1, 6) + '.svg\" alt=\"Аватар комментатора фотографии\" width=\"35\" height=\"35\"><p class=\"social__text\">' + pic.comments + '</p></li>';
+  openPhotoCaption.innerHTML = pic.description; // добавляет комментарии из массива
 };
+
+var getInfoOpenPhoto = function (evt) { // при клике на фото, показывает информацию о нем
+  for (var i = 0; i < picture.length; i++) {
+    if (parseInt(evt.target.dataset.id, 10) === i) {
+      createOpenPhoto(picture[i]);
+    }
+  }
+};
+
+picturesContainer.addEventListener('click', getInfoOpenPhoto);
 
 var hidesClasses = function () {
   openPhotoCommentsCaption.classList.add('visually-hidden'); // прячет счётчик комментариев
   openPhotoCommentsLoader.classList.add('visually-hidden'); // прячет загрузку новых комментариев
 };
 
-createOpenPhoto();
 hidesClasses();
 
+// модуль вспомогательный util.js
 
-var uploadPicture = document.querySelector('#upload-file');
-var formUploadPhoto = document.querySelector('.img-upload__overlay');
+var uploadPicture = document.querySelector('#upload-file'); // кнопка загрузки фото "О"
+var formUploadPhoto = document.querySelector('.img-upload__overlay'); // форма редактирования фото
 
 var showEditingFormPhoto = function () { // У formUploadPhoto удаляется класс hidden
   formUploadPhoto.classList.remove('hidden');
 };
 
-uploadPicture.addEventListener('change', showEditingFormPhoto); // при нажатии на uploadPicture, у formUploadPhoto удаляется класс hidden
+uploadPicture.addEventListener('change', showEditingFormPhoto); // при загрузки фото, у formUploadPhoto удаляется класс hidden
 
 var canselPicture = document.querySelector('#upload-cancel'); // крестик закрытия формы редактирования
 
-canselPicture.addEventListener('click', function () { // при нажатии на canselPicture, у formUploadPhoto добавляется класс hidden
+var hideEditingFormPhoto = function () {
   formUploadPhoto.classList.add('hidden');
-});
+};
 
-document.addEventListener('keydown', function (evt) { // при нажатии на escape, у formUploadPhoto добавляется класс hidden
+canselPicture.addEventListener('click', hideEditingFormPhoto); // при нажатии на canselPicture, у formUploadPhoto добавляется класс hidden
+
+var hideEditingFormPhotoOnEsc = function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
     formUploadPhoto.classList.add('hidden');
-  };
-});
+  }
+};
 
-var picturesContainer = document.querySelector('.pictures'); // контейнер для всех фото
+document.addEventListener('keydown', hideEditingFormPhotoOnEsc); // при нажатии на escape, у formUploadPhoto добавляется класс hidden
 
-picturesContainer.addEventListener('click', function (evt) { // при нажатии на любую фотку, открывается большое окно с этой фоткой
+var showOpenPhoto = function (evt) {
   if (evt.target.classList.contains('picture__img')) {
     openPhoto.classList.remove('hidden');
   }
-});
+};
+
+picturesContainer.addEventListener('click', showOpenPhoto); // при нажатии на любую фотку, открывается большое окно с этой фоткой
 
 var pictureCancel = document.querySelector('#picture-cancel'); // крестик закрытия большой фотографии
 
-pictureCancel.addEventListener('click', function () { // при нажатии на pictureCancel, у openPhoto добавляется класс hidden
+var hideOpenPhoto = function () {
   openPhoto.classList.add('hidden');
-});
+};
 
-document.addEventListener('keydown', function (evt) { // при нажатии на escape, у openPhoto добавляется класс hidden
+pictureCancel.addEventListener('click', hideOpenPhoto); // при нажатии на pictureCancel, у openPhoto добавляется класс hidden
+
+var hideOpenPhotoEsc = function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
     openPhoto.classList.add('hidden');
-  };
-});
+  }
+};
+
+document.addEventListener('keydown', hideOpenPhotoEsc); // при нажатии на escape, у openPhoto добавляется класс hidden
+
+// модуль создания открытой фотографии для редактирования picture.js
 
 var previewPhoto = document.querySelector('.img-upload__preview'); // фото
 var listEffects = document.querySelector('.effects__list'); // список всех эффектов
@@ -146,9 +178,7 @@ var effectLevel = document.querySelector('.img-upload__effect-level'); // сла
 
 var effects = ['none', 'chrome', 'sepia', 'marvin', 'phobos', 'heat']; // массив эффектов
 
-function switchFiltersPhoto (evt) {
-  console.log(evt.target, evt.target.id)
-
+var switchFiltersPhoto = function (evt) {
   for (var i = 0; i < effects.length; i++) {
     if (evt.target.id === ('effect-' + effects[i])) {
       previewPhoto.classList.add('effects__preview--' + effects[i]);
@@ -163,10 +193,11 @@ function switchFiltersPhoto (evt) {
   } else {
     previewPhoto.classList.remove(effects[0]);
     effectLevel.classList.remove('hidden'); // При выборе эффекта не «Оригинал» слайдер показывается.
-  };
+  }
+
   switchFilterNaturation();
   resetEffectInitialState(); // должен сбрасывать положение пина до начального состояния
-}
+};
 
 listEffects.addEventListener('click', switchFiltersPhoto);
 
@@ -175,43 +206,61 @@ var effectValue = document.querySelector('.effect-level__value'); // поле, �
 var effectLine = document.querySelector('.effect-level__line'); // вся линия слайдера
 var effectDepth = document.querySelector('.effect-level__depth'); // глубина слайдера
 
-function switchFilterNaturation () { // устанавливает насыщенность фильтра
-  var effectPinWidth = effectLevelPin.offsetWidth;
+var switchFilterNaturation = function () { // устанавливает насыщенность фильтра
   var effectDepthWidth = effectDepth.offsetWidth;
 
-  var inputEffectCheckeds = document.querySelector('input[name=effect]:checked').value;
-  console.log(inputEffectCheckeds);
+  window.inputEffectCheckeds = document.querySelector('input[name=effect]:checked').value;
 
-  var effectValue = (effectDepthWidth / effectLine.offsetWidth);
+  var effectProportion = (effectDepthWidth / effectLine.offsetWidth);
 
-  function getFilterStyle () {
-    switch (inputEffectCheckeds) {
+  var getFilterStyle = function () {
+    switch (window.inputEffectCheckeds) {
       case 'chrome':
-        return 'grayscale(' + effectValue * 1 + ')';
+        return 'grayscale(' + effectProportion * 1 + ')';
       case 'sepia':
-        return 'sepia(' + effectValue * 1 + ')';
+        return 'sepia(' + effectProportion * 1 + ')';
       case 'marvin':
-        return 'invert(' + effectValue * 100 + '%)';
+        return 'invert(' + effectProportion * 100 + '%)';
       case 'phobos':
-        return 'blur(' + effectValue * 3 + 'px)';
+        return 'blur(' + effectProportion * 3 + 'px)';
       case 'heat':
-        return 'brightness(' + effectValue * 1 + 2 + ')';
+        return 'brightness(' + effectProportion * 1 + 2 + ')';
+      default: return;
     }
   };
 
   previewPhoto.style.filter = getFilterStyle();
 };
 
-function resetEffectInitialState () { // сбрасывает положение пина до начального состояния
+var resetNaturations = function () { // сброс насыщенности по умолчанию
+  switch (window.inputEffectCheckeds) {
+    case 'chrome':
+      return 'grayscale(1)';
+    case 'sepia':
+      return 'sepia(1)';
+    case 'marvin':
+      return 'invert(100%)';
+    case 'phobos':
+      return 'blur(5px)';
+    case 'heat':
+      return 'brightness(3)';
+    default: return;
+  }
+};
+
+var resetPinPosition = function () { // сбрасывает положение пина до начального состояния
+  effectLevelPin.style.left = '100%';
+  effectDepth.style.width = '100%';
+};
+
+var resetEffectInitialState = function () { // при переключении эффекта сбрасывает положение пина и насыщенность эффекта
   effectValue;
-  inputEffectCheckeds;
-  previewPhoto.style.filter = getFilterStyle();
+  window.inputEffectCheckeds;
+  previewPhoto.style.filter = resetNaturations();
+  resetPinPosition();
 };
 
 effectLevelPin.onmousedown = function (evt) {
-  var pinCoords = getCoords(effectLevelPin); // координаты пина
-  var shiftX = evt.pageX - effectLevelPin.left;
-
   var sliderCoords = getCoords(effectLine); // координаты слайдера
 
   document.onmousemove = function (evt) {
@@ -228,24 +277,25 @@ effectLevelPin.onmousedown = function (evt) {
 
     effectLevelPin.style.left = newLeft + 'px';
     effectDepth.style.width = newLeft + 'px'; // желтая линия ползет вслед за пином!
+
     switchFilterNaturation(); // насыщенность фильтра
   };
 
   document.onmouseup = function () {
-    document.onmousemove = document.onmouseup = null
+    document.onmousemove = document.onmouseup = null;
   };
 
   return false;
 };
 
-function getCoords (elem) {
+var getCoords = function (elem) {
   var box = elem.getBoundingClientRect();
 
   return {
     top: box.top + pageYOffset,
     left: box.left + pageXOffset
   };
-}
+};
 
 var scaleControlSmall = document.querySelector('.scale__control--smaller');
 var scaleControlBig = document.querySelector('.scale__control--bigger');
@@ -255,13 +305,7 @@ var PHOTO_VALUE_STEP = 25;
 var PHOTO_RESIZE_MIN = 25;
 var PHOTO_RESIZE_MAX = 100;
 
-function resizePhoto () {
-  scaleControlValue.value = '100%';
-  scaleControlSmall.addEventListener('click', increaseZoomPhoto);
-  scaleControlBig.addEventListener('click', decreaseZoomPhoto);
-};
-
-function increaseZoomPhoto () {
+var increaseZoomPhoto = function () {
   var photoSize = parseInt(scaleControlValue.value, 10) - PHOTO_VALUE_STEP;
   if (photoSize >= PHOTO_RESIZE_MIN) {
     scaleControlValue.value = photoSize + '%';
@@ -271,7 +315,7 @@ function increaseZoomPhoto () {
   }
 };
 
-function decreaseZoomPhoto () {
+var decreaseZoomPhoto = function () {
   var photoSize = parseInt(scaleControlValue.value, 10) + PHOTO_VALUE_STEP;
   if (photoSize <= PHOTO_RESIZE_MAX) {
     scaleControlValue.value = photoSize + '%';
@@ -281,4 +325,73 @@ function decreaseZoomPhoto () {
   }
 };
 
+var resizePhoto = function () {
+  scaleControlValue.value = '100%';
+  scaleControlSmall.addEventListener('click', increaseZoomPhoto);
+  scaleControlBig.addEventListener('click', decreaseZoomPhoto);
+};
+
 resizePhoto();
+
+var imgUploadContainer = document.querySelector('.img-upload__text'); // контейнер для полей
+var inputHashtags = imgUploadContainer.querySelector('.text__hashtags'); // поле хэштегов
+var textDescription = imgUploadContainer.querySelector('.text__description');
+
+// хэш-теги необязательны;
+// хэш-тег начинается с символа # (решётка);
+// хеш-тег не может состоять только из одной решётки;
+
+var LENGTH_DESCRIPTION = 140;
+var LENGTH_NUMBER = 20;
+var QUANTITY_TAG = 5;
+
+var getMessage = {
+  beginning: 'Хэш-тег должен начинаться с символа #',
+  onetaglength: 'Максимальная длина одного хэш-тега не должна превышать 20 символов',
+  maxlength: 'Максимальная длина комментария не должна превышать 140 символов',
+  norepeat: 'Хэш-теги не должны повторяться',
+  number: 'Должно быть не больше 5 хэш-тегов'
+};
+
+var validationDescription = function () {
+  textDescription.setCustomValidity(textDescription.value.length > LENGTH_DESCRIPTION ? getMessage.maxlength : '');
+};
+
+var validationHashtags = function (evt) {
+  var hashtags = evt.target.value.split(' ');
+  var spendHashtags = {};
+  hashtags.forEach(function (hashtag) {
+    if (hashtag[0] !== '#') {
+      evt.target.setCustomValidity(getMessage.beginning);
+    }
+    if (hashtag.length > LENGTH_NUMBER) {
+      evt.target.setCustomValidity(getMessage.onetaglength);
+    }
+    if (hashtag in spendHashtags) {
+      evt.target.setCustomValidity(getMessage.norepeat);
+    }
+    spendHashtags[hashtag] = true;
+  });
+  if (hashtags.length > QUANTITY_TAG) {
+    evt.target.setCustomValidity(getMessage.number);
+  }
+};
+
+var validations = function () {
+  textDescription.addEventListener('input', validationDescription);
+  inputHashtags.addEventListener('input', validationHashtags);
+  textDescription.addEventListener('focus', function () {
+    document.removeEventListener('keydown', hideEditingFormPhotoOnEsc);
+  });
+  textDescription.addEventListener('blur', function () {
+    document.addEventListener('keydown', hideEditingFormPhotoOnEsc);
+  });
+  inputHashtags.addEventListener('focus', function () {
+    document.removeEventListener('keydown', hideEditingFormPhotoOnEsc);
+  });
+  inputHashtags.addEventListener('blur', function () {
+    document.addEventListener('keydown', hideEditingFormPhotoOnEsc);
+  });
+};
+
+validations();
