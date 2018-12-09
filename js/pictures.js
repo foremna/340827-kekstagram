@@ -202,7 +202,6 @@ var switchFiltersPhoto = function (evt) {
 listEffects.addEventListener('click', switchFiltersPhoto);
 
 var effectLevelPin = document.querySelector('.effect-level__pin'); // пин
-var effectValue = document.querySelector('.effect-level__value'); // поле, куда записывается значение вычислений
 var effectLine = document.querySelector('.effect-level__line'); // вся линия слайдера
 var effectDepth = document.querySelector('.effect-level__depth'); // глубина слайдера
 
@@ -254,8 +253,6 @@ var resetPinPosition = function () { // сбрасывает положение 
 };
 
 var resetEffectInitialState = function () { // при переключении эффекта сбрасывает положение пина и насыщенность эффекта
-  effectValue;
-  window.inputEffectCheckeds;
   previewPhoto.style.filter = resetNaturations();
   resetPinPosition();
 };
@@ -360,6 +357,7 @@ var validationDescription = function () {
 var validationHashtags = function (evt) {
   var hashtags = evt.target.value.split(' ');
   var spendHashtags = {};
+  evt.target.setCustomValidity('');
   hashtags.forEach(function (hashtag) {
     if (hashtag[0] !== '#') {
       evt.target.setCustomValidity(getMessage.beginning);
