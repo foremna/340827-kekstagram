@@ -195,104 +195,9 @@ var switchFiltersPhoto = function (evt) {
     effectLevel.classList.remove('hidden'); // При выборе эффекта не «Оригинал» слайдер показывается.
   }
 
-  switchFilterNaturation();
-  resetEffectInitialState(); // должен сбрасывать положение пина до начального состояния
 };
 
 listEffects.addEventListener('click', switchFiltersPhoto);
-
-var effectLevelPin = document.querySelector('.effect-level__pin'); // пин
-var effectLine = document.querySelector('.effect-level__line'); // вся линия слайдера
-var effectDepth = document.querySelector('.effect-level__depth'); // глубина слайдера
-
-var switchFilterNaturation = function () { // устанавливает насыщенность фильтра
-  var effectDepthWidth = effectDepth.offsetWidth;
-
-  window.inputEffectCheckeds = document.querySelector('input[name=effect]:checked').value;
-
-  var effectProportion = (effectDepthWidth / effectLine.offsetWidth);
-
-  var getFilterStyle = function () {
-    switch (window.inputEffectCheckeds) {
-      case 'chrome':
-        return 'grayscale(' + effectProportion * 1 + ')';
-      case 'sepia':
-        return 'sepia(' + effectProportion * 1 + ')';
-      case 'marvin':
-        return 'invert(' + effectProportion * 100 + '%)';
-      case 'phobos':
-        return 'blur(' + effectProportion * 3 + 'px)';
-      case 'heat':
-        return 'brightness(' + effectProportion * 1 + 2 + ')';
-      default: return;
-    }
-  };
-
-  previewPhoto.style.filter = getFilterStyle();
-};
-
-var resetNaturations = function () { // сброс насыщенности по умолчанию
-  switch (window.inputEffectCheckeds) {
-    case 'chrome':
-      return 'grayscale(1)';
-    case 'sepia':
-      return 'sepia(1)';
-    case 'marvin':
-      return 'invert(100%)';
-    case 'phobos':
-      return 'blur(5px)';
-    case 'heat':
-      return 'brightness(3)';
-    default: return;
-  }
-};
-
-var resetPinPosition = function () { // сбрасывает положение пина до начального состояния
-  effectLevelPin.style.left = '100%';
-  effectDepth.style.width = '100%';
-};
-
-var resetEffectInitialState = function () { // при переключении эффекта сбрасывает положение пина и насыщенность эффекта
-  previewPhoto.style.filter = resetNaturations();
-  resetPinPosition();
-};
-
-effectLevelPin.onmousedown = function (evt) {
-  var sliderCoords = getCoords(effectLine); // координаты слайдера
-
-  document.onmousemove = function (evt) {
-    var newLeft = evt.pageX - sliderCoords.left; // вычесть координату слайдера
-
-    if (newLeft < 0) { // курсор ушел вне слайдера
-      newLeft = 0;
-    }
-
-    var rightEdge = effectLine.offsetWidth;
-    if (newLeft > rightEdge) {
-      newLeft = rightEdge;
-    }
-
-    effectLevelPin.style.left = newLeft + 'px';
-    effectDepth.style.width = newLeft + 'px'; // желтая линия ползет вслед за пином!
-
-    switchFilterNaturation(); // насыщенность фильтра
-  };
-
-  document.onmouseup = function () {
-    document.onmousemove = document.onmouseup = null;
-  };
-
-  return false;
-};
-
-var getCoords = function (elem) {
-  var box = elem.getBoundingClientRect();
-
-  return {
-    top: box.top + pageYOffset,
-    left: box.left + pageXOffset
-  };
-};
 
 var scaleControlSmall = document.querySelector('.scale__control--smaller');
 var scaleControlBig = document.querySelector('.scale__control--bigger');
@@ -333,10 +238,6 @@ resizePhoto();
 var imgUploadContainer = document.querySelector('.img-upload__text'); // контейнер для полей
 var inputHashtags = imgUploadContainer.querySelector('.text__hashtags'); // поле хэштегов
 var textDescription = imgUploadContainer.querySelector('.text__description');
-
-// хэш-теги необязательны;
-// хэш-тег начинается с символа # (решётка);
-// хеш-тег не может состоять только из одной решётки;
 
 var LENGTH_DESCRIPTION = 140;
 var LENGTH_NUMBER = 20;
