@@ -45,16 +45,16 @@ var validations = function () {
   textDescription.addEventListener('input', validationDescription);
   inputHashtags.addEventListener('input', validationHashtags);
   textDescription.addEventListener('focus', function () {
-    document.removeEventListener('keydown', hideEditingFormPhotoOnEsc);
+    document.removeEventListener('keydown', window.util.hideEditingFormPhotoOnEsc);
   });
   textDescription.addEventListener('blur', function () {
-    document.addEventListener('keydown', hideEditingFormPhotoOnEsc);
+    document.addEventListener('keydown', window.util.hideEditingFormPhotoOnEsc);
   });
   inputHashtags.addEventListener('focus', function () {
-    document.removeEventListener('keydown', hideEditingFormPhotoOnEsc);
+    document.removeEventListener('keydown', window.util.hideEditingFormPhotoOnEsc);
   });
   inputHashtags.addEventListener('blur', function () {
-    document.addEventListener('keydown', hideEditingFormPhotoOnEsc);
+    document.addEventListener('keydown', window.util.hideEditingFormPhotoOnEsc);
   });
 };
 

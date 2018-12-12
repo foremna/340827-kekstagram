@@ -18,7 +18,7 @@
 
   canselPicture.addEventListener('click', hideEditingFormPhoto); // при нажатии на canselPicture, у formUploadPhoto добавляется класс hidden
 
-  window.hideEditingFormPhotoOnEsc = function (evt) {
+  var hideEditingFormPhotoOnEsc = function (evt) {
     if (evt.keyCode === window.ESC_KEYCODE) {
       formUploadPhoto.classList.add('hidden');
     }
@@ -28,25 +28,29 @@
 
   var showOpenPhoto = function (evt) {
     if (evt.target.classList.contains('picture__img')) {
-      window.openPhoto.classList.remove('hidden');
+      window.preview.openPhoto.classList.remove('hidden');
     }
   };
 
-  window.picturesContainer.addEventListener('click', showOpenPhoto); // при нажатии на любую фотку, открывается большое окно с этой фоткой
+  window.preview.picturesContainer.addEventListener('click', showOpenPhoto); // при нажатии на любую фотку, открывается большое окно с этой фоткой
 
   var pictureCancel = document.querySelector('#picture-cancel'); // крестик закрытия большой фотографии
 
   var hideOpenPhoto = function () {
-    window.openPhoto.classList.add('hidden');
+    window.preview.openPhoto.classList.add('hidden');
   };
 
   pictureCancel.addEventListener('click', hideOpenPhoto); // при нажатии на pictureCancel, у openPhoto добавляется класс hidden
 
   var hideOpenPhotoEsc = function (evt) {
     if (evt.keyCode === window.ESC_KEYCODE) {
-      openPhoto.classList.add('hidden');
+      window.preview.openPhoto.classList.add('hidden');
     }
   };
 
   document.addEventListener('keydown', hideOpenPhotoEsc); // при нажатии на escape, у openPhoto добавляется класс hidden
+
+  window.util = {
+    hideEditingFormPhotoOnEsc: hideEditingFormPhotoOnEsc
+  };
 })();

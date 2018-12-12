@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  window.previewPhoto = document.querySelector('.img-upload__preview'); // фото
+  var previewPhoto = document.querySelector('.img-upload__preview'); // фото
   var listEffects = document.querySelector('.effects__list'); // список всех эффектов
   var effectLevel = document.querySelector('.img-upload__effect-level'); // слайдер
 
@@ -31,7 +31,6 @@
   listEffects.addEventListener('click', switchFiltersPhoto);
 
   var effectLevelPin = document.querySelector('.effect-level__pin'); // пин
-  var effectValue = document.querySelector('.effect-level__value'); // поле, куда записывается значение вычислений
   var effectLine = document.querySelector('.effect-level__line'); // вся линия слайдера
   var effectDepth = document.querySelector('.effect-level__depth'); // глубина слайдера
 
@@ -54,7 +53,7 @@
           return 'blur(' + effectProportion * 3 + 'px)';
         case 'heat':
           return 'brightness(' + effectProportion * 1 + 2 + ')';
-        default: 'none';
+        default: return 'none';
       }
     };
 
@@ -62,7 +61,7 @@
   };
 
   var resetNaturations = function () { // сброс насыщенности по умолчанию
-    switch (inputEffectCheckeds) {
+    switch (window.inputEffectCheckeds) {
       case 'chrome':
         return 'grayscale(1)';
       case 'sepia':
@@ -73,7 +72,7 @@
         return 'blur(5px)';
       case 'heat':
         return 'brightness(3)';
-      default: 'none';
+      default: return 'none';
     }
   };
 
@@ -87,7 +86,7 @@
     resetPinPosition();
   };
 
-  effectLevelPin.onmousedown = function (evt) {
+  effectLevelPin.onmousedown = function () {
     var sliderCoords = getCoords(effectLine); // координаты слайдера
 
     document.onmousemove = function (evt) {
@@ -122,5 +121,9 @@
       top: box.top + pageYOffset,
       left: box.left + pageXOffset
     };
+  };
+
+  window.slider = {
+    previewPhoto: previewPhoto
   };
 })();

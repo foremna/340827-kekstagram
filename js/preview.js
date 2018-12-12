@@ -1,8 +1,8 @@
 'use strict';
 
 (function () {
-  window.picturesContainer = document.querySelector('.pictures'); // контейнер для всех фото
-  window.openPhoto = document.querySelector('.big-picture'); // блок открытой фотографии
+  var picturesContainer = document.querySelector('.pictures'); // контейнер для всех фото
+  var openPhoto = document.querySelector('.big-picture'); // блок открытой фотографии
   var openPhotoImage = openPhoto.querySelector('.big-picture__img'); // фото открытой фотографии
   var openPhotoImg = openPhotoImage.querySelector('img');
   var openPhotoLikes = openPhoto.querySelector('.likes-count'); // лайки открытой фотографии
@@ -23,9 +23,9 @@
   };
 
   var getInfoOpenPhoto = function (evt) { // при клике на фото, показывает информацию о нем
-    for (var i = 0; i < picture.length; i++) {
+    for (var i = 0; i < window.data.picture.length; i++) {
       if (parseInt(evt.target.dataset.id, 10) === i) {
-        createOpenPhoto(picture[i]);
+        createOpenPhoto(window.data.picture[i]);
       }
     }
   };
@@ -39,5 +39,8 @@
 
   hidesClasses();
 
-  // window.picturesContainer = picturesContainer;
+  window.preview = {
+    picturesContainer: picturesContainer,
+    openPhoto: openPhoto
+  };
 })();

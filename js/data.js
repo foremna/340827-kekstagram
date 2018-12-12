@@ -7,7 +7,7 @@
 
   window.ESC_KEYCODE = 27;
 
-  window.getRandomInRange = function (min, max) {
+  var getRandomInRange = function (min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   };
 
@@ -51,5 +51,8 @@
 
   var picture = getSidawaysDataArray();
 
-  window.picture = picture;
+  window.data = {
+    getRandomInRange: getRandomInRange,
+    picture: picture
+  };
 })();
