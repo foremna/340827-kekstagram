@@ -2,6 +2,7 @@
 
 (function () {
   var AVATAR_SIZE = 35;
+  var MORE_REQUIRED = 5;
 
   var picturesContainer = document.querySelector('.pictures'); // контейнер для всех фото
   var openPhoto = document.querySelector('.big-picture'); // блок открытой фотографии
@@ -47,6 +48,10 @@
       liElem.appendChild(imageElem);
       liElem.appendChild(pElem);
       openPhotoSocialComments.appendChild(liElem);
+
+      if (j >= MORE_REQUIRED) {
+        liElem.classList.add('visually-hidden');
+      }
     }
   };
 
@@ -60,12 +65,12 @@
 
   picturesContainer.addEventListener('click', getInfoOpenPhoto);
 
-  var hidesClasses = function () {
-    openPhotoCommentsCaption.classList.add('visually-hidden'); // прячет счётчик комментариев
-    openPhotoCommentsLoader.classList.add('visually-hidden'); // прячет загрузку новых комментариев
-  };
+  // var hidesClasses = function () {
+  //   openPhotoCommentsCaption.classList.add('visually-hidden'); // прячет счётчик комментариев
+  //   openPhotoCommentsLoader.classList.add('visually-hidden'); // прячет загрузку новых комментариев
+  // };
 
-  hidesClasses();
+  // hidesClasses();
 
   var form = document.querySelector('.img-upload__form'); // форма редактирования изображения
 
@@ -78,6 +83,7 @@
 
   window.preview = {
     picturesContainer: picturesContainer,
+    openPhotoCommentsCaption: openPhotoCommentsCaption,
     openPhoto: openPhoto
   };
 })();
