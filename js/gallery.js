@@ -19,7 +19,7 @@
       pictureLikes.textContent = pictures[i].likes; // на каждой иттерации цикла берем из объекта значение likes-лайки из массива picture
       pictureComments.textContent = pictures[i].comments.length; // на каждой иттерации цикла берем из объекта значение comments-описание из массива picture
       fragment.appendChild(pisturesCards);
-      window.preview.openPhotoCommentsCaption.textContent = '5 из ' + comments.length + ' комментариев';
+      window.preview.openPhotoCommentsCaption.innerHTML = '5 из ' + '<span class="comments-count">' + pictures[i].comments.length + '</span>' + ' комментариев';
     }
 
 

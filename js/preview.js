@@ -13,6 +13,7 @@
 
   var openPhotoSocialComments = openPhoto.querySelector('.social__comments'); // блок с комментариями
   var openPhotoCommentsCaption = openPhoto.querySelector('.social__comment-count'); // счётчик комментариев
+  var openPhotoCommentsCount = openPhoto.querySelector('.comments__count'); 
   var openPhotoCommentsLoader = openPhoto.querySelector('.comments-loader'); // загрузка новых комментариев
 
   var createElement = function (tag, className, text) {
@@ -40,6 +41,8 @@
     openPhotoLikes.textContent = pic.likes;
     openPhotoCaption.textContent = pic.description; // добавляет комментарии из массива
 
+    var commentsAll = querySelectorAll('.social__comment');
+
     for (var j = 0; j < pic.comments.length; j++) {
 
       var liElem = createElement('li', 'social__comment');
@@ -52,6 +55,9 @@
       if (j >= MORE_REQUIRED) {
         liElem.classList.add('visually-hidden');
       }
+
+      for (var l = 0; i < commentsAll.length; l++) {
+        openPhotoSocialComments.removeChild(liElem[i])
     }
   };
 
@@ -64,13 +70,6 @@
   };
 
   picturesContainer.addEventListener('click', getInfoOpenPhoto);
-
-  // var hidesClasses = function () {
-  //   openPhotoCommentsCaption.classList.add('visually-hidden'); // прячет счётчик комментариев
-  //   openPhotoCommentsLoader.classList.add('visually-hidden'); // прячет загрузку новых комментариев
-  // };
-
-  // hidesClasses();
 
   var form = document.querySelector('.img-upload__form'); // форма редактирования изображения
 
@@ -86,4 +85,5 @@
     openPhotoCommentsCaption: openPhotoCommentsCaption,
     openPhoto: openPhoto
   };
+
 })();
