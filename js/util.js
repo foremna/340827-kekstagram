@@ -3,6 +3,7 @@
 (function () {
   var uploadPicture = document.querySelector('#upload-file'); // кнопка загрузки фото "О"
   var formUploadPhoto = document.querySelector('.img-upload__overlay'); // форма редактирования фото
+  var body = document.querySelector('body');
 
   var showEditingFormPhoto = function () { // У formUploadPhoto удаляется класс hidden
     formUploadPhoto.classList.remove('hidden');
@@ -29,6 +30,7 @@
   var showOpenPhoto = function (evt) {
     if (evt.target.classList.contains('picture__img')) {
       window.preview.openPhoto.classList.remove('hidden');
+      body.classList.add('modal-open');
     }
   };
 
@@ -38,6 +40,7 @@
 
   var hideOpenPhoto = function () {
     window.preview.openPhoto.classList.add('hidden');
+    body.classList.remove('modal-open');
   };
 
   pictureCancel.addEventListener('click', hideOpenPhoto); // при нажатии на pictureCancel, у openPhoto добавляется класс hidden
@@ -51,6 +54,7 @@
   document.addEventListener('keydown', hideOpenPhotoEsc); // при нажатии на escape, у openPhoto добавляется класс hidden
 
   window.util = {
-    hideEditingFormPhotoOnEsc: hideEditingFormPhotoOnEsc
+    hideEditingFormPhotoOnEsc: hideEditingFormPhotoOnEsc,
+    formUploadPhoto: formUploadPhoto
   };
 })();

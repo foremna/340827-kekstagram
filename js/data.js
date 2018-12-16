@@ -36,23 +36,23 @@
     return array.slice(1, randomLength).join(', ');
   };
 
-  var getSidawaysDataArray = function () {
-    var picture = [];
-    for (var i = 0; i < 26; i++) {
-      picture[i] = {
-        url: ('photos/' + (i + 1) + '.jpg'), // фото карточки
-        likes: getRandomInRange(15, 200), // лайки карточки
-        comments: getRandomComments(commentaries), // описание карточки
-        description: getRandElement(tags) // тэг карточки
-      };
-    }
-    return picture;
-  };
-
-  var picture = getSidawaysDataArray();
+  window.backend.load(function (data) {
+    window.data.pictures = data;
+    window.gallery.createPictures(window.data.pictures);
+  }, function (errorMessage) {
+    var node = document.createElement('div');
+    node.style = 'z-index: 100; width: 600px; border-radius: 30px; margin: 0 auto; text-align: center; line-height: 45px; background-color: red;';
+    node.style.position = 'absolute';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = '30px';
+    
+    node.textContent = errorMessage; 
+    document.body.insertAdjacentElement('afterbegin', node);
+  });
 
   window.data = {
     getRandomInRange: getRandomInRange,
-    picture: picture
+    // picture: picture
   };
 })();

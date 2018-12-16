@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var createPictures = function () {
+  var createPictures = function (pictures) {
     var pictureTemplate = document.querySelector('#picture') // шаблон карточки товара
     .content
     .querySelector('.picture');
@@ -12,16 +12,19 @@
 
     var fragment = document.createDocumentFragment();
 
-    for (var i = 0; i < 26; i++) {
+    for (var i = 0; i < pictures.length; i++) {
       var pisturesCards = pictureTemplate.cloneNode(true);
-      pictureImage.src = window.picture[i].url; // на каждой иттерации цикла берем из объекта значение url-фотку из массива picture
+      pictureImage.src = pictures[i].url; // на каждой иттерации цикла берем из объекта значение url-фотку из массива picture
       pictureImage.dataset.id = i;
-      pictureLikes.textContent = window.picture[i].likes; // на каждой иттерации цикла берем из объекта значение likes-лайки из массива picture
-      pictureComments.textContent = window.picture[i].comments; // на каждой иттерации цикла берем из объекта значение comments-описание из массива picture
+      pictureLikes.textContent = pictures[i].likes; // на каждой иттерации цикла берем из объекта значение likes-лайки из массива picture
+      pictureComments.textContent = pictures[i].comments.length; // на каждой иттерации цикла берем из объекта значение comments-описание из массива picture
       fragment.appendChild(pisturesCards);
     }
 
     containerPictures.appendChild(fragment); // отрисовывает в контейнере карточки
   };
-  createPictures();
+
+  window.gallery = {
+    createPictures: createPictures
+  };
 })();
