@@ -5,7 +5,7 @@
 
   var tags = ['Тестим новую камеру!', 'Затусили с друзьями на море', 'Как же круто тут кормят', 'Отдыхаем...', 'Цените каждое мгновенье. Цените тех, кто рядом с вами и отгоняйте все сомненья. Не обижайте всех словами......', 'Вот это тачка!'];
 
-  window.ESC_KEYCODE = 27;
+  var ESC_KEYCODE = 27;
 
   var getRandomInRange = function (min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -53,6 +53,6 @@
 
   window.data = {
     getRandomInRange: getRandomInRange,
-    // picture: picture
+    ESC_KEYCODE: ESC_KEYCODE
   };
 })();

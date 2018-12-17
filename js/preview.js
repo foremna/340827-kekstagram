@@ -13,8 +13,7 @@
 
   var openPhotoSocialComments = openPhoto.querySelector('.social__comments'); // блок с комментариями
   var openPhotoCommentsCaption = openPhoto.querySelector('.social__comment-count'); // счётчик комментариев
-  var openPhotoCommentsCount = openPhoto.querySelector('.comments__count'); 
-  var openPhotoCommentsLoader = openPhoto.querySelector('.comments-loader'); // загрузка новых комментариев
+  var openPhotoCommentsCount = openPhoto.querySelector('.comments__count');
 
   var createElement = function (tag, className, text) {
     var certainElement = document.createElement(tag);
@@ -41,7 +40,15 @@
     openPhotoLikes.textContent = pic.likes;
     openPhotoCaption.textContent = pic.description; // добавляет комментарии из массива
 
-    var commentsAll = querySelectorAll('.social__comment');
+    var commentsAll = document.querySelectorAll('.social__comment');
+
+    var commentsResetOld = function (start) {
+      for (var l = start; l < commentsAll.length; l++) {
+        openPhotoSocialComments.removeChild(commentsAll[l]);
+      }
+    };
+
+    commentsResetOld();
 
     for (var j = 0; j < pic.comments.length; j++) {
 
@@ -55,9 +62,6 @@
       if (j >= MORE_REQUIRED) {
         liElem.classList.add('visually-hidden');
       }
-
-      for (var l = 0; i < commentsAll.length; l++) {
-        openPhotoSocialComments.removeChild(liElem[i])
     }
   };
 
@@ -74,16 +78,40 @@
   var form = document.querySelector('.img-upload__form'); // форма редактирования изображения
 
   form.addEventListener('submit', function (evt) {
-    window.upload(new FormData(form), function (response) {
+    window.backend.upload(new FormData(form), function (response) {
       window.util.formUploadPhoto.classList.add('hidden');
+      window.popup.showSuccessMessage();
     });
     evt.preventDefault();
+  }, function () {
+    window.util.formUploadPhoto.classList.add('hidden');
+    window.popup.showErrorMessage();
   });
 
   window.preview = {
     picturesContainer: picturesContainer,
     openPhotoCommentsCaption: openPhotoCommentsCaption,
+    openPhotoCommentsCount: openPhotoCommentsCount,
     openPhoto: openPhoto
   };
-
 })();
+
+
+
+
+
+
+
+
+
+
+// form.addEventListener('submit', function (evt) {
+//   window.backend.upload(new FormData(form), function (response) {
+//     window.util.formUploadPhoto.classList.add('hidden');
+//   });
+//   evt.preventDefault();
+// }, function (succesMessage) {
+//   window.popap.successTemplate.appendChild(window.popap.main);
+// }, function (errorMessage) {
+//   window.popap.errorTemplate.appendChild(window.popap.main);
+// });
