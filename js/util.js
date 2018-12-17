@@ -3,6 +3,7 @@
 (function () {
   var uploadPicture = document.querySelector('#upload-file'); // кнопка загрузки фото "О"
   var formUploadPhoto = document.querySelector('.img-upload__overlay'); // форма редактирования фото
+  var body = document.querySelector('body');
 
   var showEditingFormPhoto = function () { // У formUploadPhoto удаляется класс hidden
     formUploadPhoto.classList.remove('hidden');
@@ -19,7 +20,7 @@
   canselPicture.addEventListener('click', hideEditingFormPhoto); // при нажатии на canselPicture, у formUploadPhoto добавляется класс hidden
 
   var hideEditingFormPhotoOnEsc = function (evt) {
-    if (evt.keyCode === window.ESC_KEYCODE) {
+    if (evt.keyCode === window.data.ESC_KEYCODE) {
       formUploadPhoto.classList.add('hidden');
     }
   };
@@ -29,6 +30,7 @@
   var showOpenPhoto = function (evt) {
     if (evt.target.classList.contains('picture__img')) {
       window.preview.openPhoto.classList.remove('hidden');
+      body.classList.add('modal-open');
     }
   };
 
@@ -38,12 +40,13 @@
 
   var hideOpenPhoto = function () {
     window.preview.openPhoto.classList.add('hidden');
+    body.classList.remove('modal-open');
   };
 
   pictureCancel.addEventListener('click', hideOpenPhoto); // при нажатии на pictureCancel, у openPhoto добавляется класс hidden
 
   var hideOpenPhotoEsc = function (evt) {
-    if (evt.keyCode === window.ESC_KEYCODE) {
+    if (evt.keyCode === window.data.ESC_KEYCODE) {
       window.preview.openPhoto.classList.add('hidden');
     }
   };
@@ -51,6 +54,8 @@
   document.addEventListener('keydown', hideOpenPhotoEsc); // при нажатии на escape, у openPhoto добавляется класс hidden
 
   window.util = {
-    hideEditingFormPhotoOnEsc: hideEditingFormPhotoOnEsc
+    hideEditingFormPhotoOnEsc: hideEditingFormPhotoOnEsc,
+    formUploadPhoto: formUploadPhoto,
+    canselPicture: canselPicture
   };
 })();

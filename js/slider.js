@@ -124,6 +124,8 @@
   };
 
   window.slider = {
-    previewPhoto: previewPhoto
+    previewPhoto: previewPhoto,
+    effectDepth: effectDepth,
+    effectLevelPin: effectLevelPin
   };
 })();
