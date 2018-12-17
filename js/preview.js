@@ -95,23 +95,3 @@
     openPhoto: openPhoto
   };
 })();
-
-
-
-
-
-
-
-
-
-
-// form.addEventListener('submit', function (evt) {
-//   window.backend.upload(new FormData(form), function (response) {
-//     window.util.formUploadPhoto.classList.add('hidden');
-//   });
-//   evt.preventDefault();
-// }, function (succesMessage) {
-//   window.popap.successTemplate.appendChild(window.popap.main);
-// }, function (errorMessage) {
-//   window.popap.errorTemplate.appendChild(window.popap.main);
-// });

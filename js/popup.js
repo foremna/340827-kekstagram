@@ -27,8 +27,8 @@
       }
     });
 
-    document.addEventListener('click', function (evt) {
-      if (evt.target.closest('#success') === null) {
+    successTemplate.addEventListener('click', function (evt) {
+      if (!evt.target.closest('.success__inner') === null) {
         main.removeChild(successTemplate);
       }
     });
@@ -61,6 +61,4 @@
     errorButton: errorButton
   };
 
-  // при успешной отправке формы показывается successTemplate
-  // при ошибке errorTemplate
 })();

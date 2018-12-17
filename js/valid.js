@@ -65,7 +65,7 @@
   var effectDefaultRadio = document.querySelector('input[id=effect-heat]');
 
   var effectDefaultChecked = function () {
-    effectDefaultRadio.checked();
+    effectDefaultRadio.checked = true;
   };
 
   var effectSaturationsDefault = function () {
@@ -83,6 +83,6 @@
     effectSaturationsDefault();
   };
 
-  submitPublish.addEventListener('submit', resetSettings); // При нажатии на кнопку 'опубликовать' очищать поля и ставить кнопки по умолчанию
-  window.util.canselPicture.addEventListener('submit', resetSettings); // Нажатие на кнопку #upload-cancel приводит к закрытию и очистке всех данных, введённых в форму редактирования
+  submitPublish.addEventListener('click', resetSettings); // При нажатии на кнопку 'опубликовать' очищать поля и ставить кнопки по умолчанию
+  window.util.canselPicture.addEventListener('click', resetSettings); // Нажатие на кнопку #upload-cancel приводит к закрытию и очистке всех данных, введённых в форму редактирования
 })();
