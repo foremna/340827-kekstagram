@@ -78,11 +78,11 @@
   var form = document.querySelector('.img-upload__form'); // форма редактирования изображения
 
   form.addEventListener('submit', function (evt) {
+    evt.preventDefault();
     window.backend.upload(new FormData(form), function (response) {
       window.util.formUploadPhoto.classList.add('hidden');
       window.popup.showSuccessMessage();
     });
-    evt.preventDefault();
   }, function () {
     window.util.formUploadPhoto.classList.add('hidden');
     window.popup.showErrorMessage();
@@ -94,4 +94,6 @@
     openPhotoCommentsCount: openPhotoCommentsCount,
     openPhoto: openPhoto
   };
+
+
 })();

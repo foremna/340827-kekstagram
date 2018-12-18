@@ -3,8 +3,19 @@
 (function () {
   var ESC_KEYCODE = 27;
 
+  var getRandomInRange = function (min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  };
+  var arrayPicturesDefault = [];
+  var recordPicturesArray = function () {
+    for (var i = 0; i < window.data.pictures.length; i++) { // записывает фотки в новый массив arrayPicturesDefault
+      arrayPicturesDefault[i] = window.data.pictures[i]; 
+    }
+  };
+
   window.backend.load(function (data) {
     window.data.pictures = data;
+    recordPicturesArray();
     window.gallery.createPictures(window.data.pictures);
   }, function (errorMessage) {
     var node = document.createElement('div');
@@ -19,6 +30,7 @@
   });
 
   window.data = {
+    getRandomInRange: getRandomInRange,
     ESC_KEYCODE: ESC_KEYCODE
   };
 })();
