@@ -10,6 +10,7 @@
     xhr.timeout = 10000; // 10s
 
     xhr.addEventListener('load', function () {
+      window.filter.imageFilters.classList.remove('img-filters--inactive'); // при загрузке данных показывает фильтры
       if (xhr.status === 200) {
         onLoad(xhr.response);
       } else {
