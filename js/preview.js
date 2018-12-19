@@ -5,6 +5,7 @@
   var MORE_REQUIRED = 5;
 
   var picturesContainer = document.querySelector('.pictures'); // контейнер для всех фото
+  var pictureMin = picturesContainer.querySelectorAll('.picture');
   var openPhoto = document.querySelector('.big-picture'); // блок открытой фотографии
   var openPhotoImage = openPhoto.querySelector('.big-picture__img'); // фото открытой фотографии
   var openPhotoImg = openPhotoImage.querySelector('img');
@@ -90,6 +91,7 @@
 
   window.preview = {
     picturesContainer: picturesContainer,
+    pictureMin: pictureMin,
     openPhotoCommentsCaption: openPhotoCommentsCaption,
     openPhotoCommentsCount: openPhotoCommentsCount,
     openPhoto: openPhoto
