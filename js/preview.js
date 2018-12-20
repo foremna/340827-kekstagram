@@ -5,7 +5,6 @@
   var MORE_REQUIRED = 5;
 
   var picturesContainer = document.querySelector('.pictures'); // контейнер для всех фото
-  var pictureMin = picturesContainer.querySelectorAll('.picture');
   var openPhoto = document.querySelector('.big-picture'); // блок открытой фотографии
   var openPhotoImage = openPhoto.querySelector('.big-picture__img'); // фото открытой фотографии
   var openPhotoImg = openPhotoImage.querySelector('img');
@@ -41,37 +40,45 @@
     openPhotoLikes.textContent = pic.likes;
     openPhotoCaption.textContent = pic.description; // добавляет комментарии из массива
 
-    var commentsAll = document.querySelectorAll('.social__comment');
+    openPhotoCommentsCaption.innerHTML = 'N из ' + '<span class="comments-count">' + pic.comments.length + '</span>' + ' комментариев';
 
-    var commentsResetOld = function (start) {
-      for (var l = start; l < commentsAll.length; l++) {
-        openPhotoSocialComments.removeChild(commentsAll[l]);
-      }
+    var comments = document.querySelectorAll('.social__comment');
+
+    var commentsResetOld = function () {
+      comments.forEach(function (comment) { // вариант 2
+        openPhotoSocialComments.removeChild(comment);
+      });
     };
 
     commentsResetOld();
 
-    for (var j = 0; j < pic.comments.length; j++) {
-
+    pic.comments.forEach(function (comment, i) { // показывает все комменты, а не 5
       var liElem = createElement('li', 'social__comment');
-      var pElem = createElement('p', 'social__text', pic.comments[j].message);
-      var imageElem = createImage('social__picture', pic.comments[j]);
+      var pElem = createElement('p', 'social__text', comment.message);
+      var imageElem = createImage('social__picture', comment);
       liElem.appendChild(imageElem);
       liElem.appendChild(pElem);
       openPhotoSocialComments.appendChild(liElem);
 
-      if (j >= MORE_REQUIRED) {
+      if (i >= MORE_REQUIRED) {
         liElem.classList.add('visually-hidden');
       }
-    }
+    });
   };
 
   var getInfoOpenPhoto = function (evt) { // при клике на фото, показывает информацию о нем
-    for (var i = 0; i < window.data.pictures.length; i++) {
+    // for (var i = 0; i < window.data.pictures.length; i++) {
+    //   if (parseInt(evt.target.dataset.id, 10) === i) {
+    //     createOpenPhoto(window.data.pictures[i]);
+    //   }
+    // }
+
+    window.data.pictures.forEach(function (picture, i) { // должно работать, но не хочет
       if (parseInt(evt.target.dataset.id, 10) === i) {
-        createOpenPhoto(window.data.pictures[i]);
+        createOpenPhoto(picture);
       }
-    }
+    });
+
   };
 
   picturesContainer.addEventListener('click', getInfoOpenPhoto);
@@ -91,7 +98,6 @@
 
   window.preview = {
     picturesContainer: picturesContainer,
-    pictureMin: pictureMin,
     openPhotoCommentsCaption: openPhotoCommentsCaption,
     openPhotoCommentsCount: openPhotoCommentsCount,
     openPhoto: openPhoto

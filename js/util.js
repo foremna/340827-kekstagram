@@ -11,13 +11,13 @@
 
   uploadPicture.addEventListener('change', showEditingFormPhoto); // при загрузки фото, у formUploadPhoto удаляется класс hidden
 
-  var canselPicture = document.querySelector('#upload-cancel'); // крестик закрытия формы редактирования
+  var cancelPicture = document.querySelector('#upload-cancel'); // крестик закрытия формы редактирования
 
   var hideEditingFormPhoto = function () {
     formUploadPhoto.classList.add('hidden');
   };
 
-  canselPicture.addEventListener('click', hideEditingFormPhoto); // при нажатии на canselPicture, у formUploadPhoto добавляется класс hidden
+  cancelPicture.addEventListener('click', hideEditingFormPhoto); // при нажатии на cancelPicture, у formUploadPhoto добавляется класс hidden
 
   var hideEditingFormPhotoOnEsc = function (evt) {
     if (evt.keyCode === window.data.ESC_KEYCODE) {
@@ -56,6 +56,6 @@
   window.util = {
     hideEditingFormPhotoOnEsc: hideEditingFormPhotoOnEsc,
     formUploadPhoto: formUploadPhoto,
-    canselPicture: canselPicture
+    cancelPicture: cancelPicture
   };
 })();

@@ -13,7 +13,7 @@
     var photoSize = parseInt(scaleControlValue.value, 10) - PHOTO_VALUE_STEP;
     if (photoSize >= PHOTO_RESIZE_MIN) {
       scaleControlValue.value = photoSize + '%';
-      window.previewPhoto.style.transform = 'scale(' + photoSize / PHOTO_RESIZE_MAX + ')';
+      window.slider.previewPhoto.style.transform = 'scale(' + photoSize / PHOTO_RESIZE_MAX + ')';
     } else {
       photoSize = PHOTO_RESIZE_MIN;
     }
@@ -23,7 +23,7 @@
     var photoSize = parseInt(scaleControlValue.value, 10) + PHOTO_VALUE_STEP;
     if (photoSize <= PHOTO_RESIZE_MAX) {
       scaleControlValue.value = photoSize + '%';
-      window.previewPhoto.style.transform = 'scale(' + photoSize / PHOTO_RESIZE_MAX + ')';
+      window.slider.previewPhoto.style.transform = 'scale(' + photoSize / PHOTO_RESIZE_MAX + ')';
     } else {
       photoSize = PHOTO_RESIZE_MAX;
     }

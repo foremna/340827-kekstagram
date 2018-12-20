@@ -8,13 +8,13 @@
   var effects = ['none', 'chrome', 'sepia', 'marvin', 'phobos', 'heat']; // массив эффектов
 
   var switchFiltersPhoto = function (evt) {
-    for (var i = 0; i < effects.length; i++) {
-      if (evt.target.id === ('effect-' + effects[i])) {
-        previewPhoto.classList.add('effects__preview--' + effects[i]);
+    effects.forEach(function (effect) {
+      if (evt.target.id === ('effect-' + effect)) {
+        previewPhoto.classList.add('effects__preview--' + effect);
       } else {
-        previewPhoto.classList.remove('effects__preview--' + effects[i]);
+        previewPhoto.classList.remove('effects__preview--' + effect);
       }
-    }
+    });
 
     if (evt.target.id === ('effect-' + effects[0])) {
       previewPhoto.classList.add('effects__preview--' + effects[0]);

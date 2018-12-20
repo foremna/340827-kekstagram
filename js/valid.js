@@ -12,14 +12,14 @@
 
   var getMessage = {
     beginning: 'Хэш-тег должен начинаться с символа #',
-    onetaglength: 'Максимальная длина одного хэш-тега не должна превышать 20 символов',
-    maxlength: 'Максимальная длина комментария не должна превышать 140 символов',
-    norepeat: 'Хэш-теги не должны повторяться',
+    oneTagLength: 'Максимальная длина одного хэш-тега не должна превышать 20 символов',
+    maxLength: 'Максимальная длина комментария не должна превышать 140 символов',
+    noRepeat: 'Хэш-теги не должны повторяться',
     number: 'Должно быть не больше 5 хэш-тегов'
   };
 
   var validationDescription = function () {
-    textDescription.setCustomValidity(textDescription.value.length > LENGTH_DESCRIPTION ? getMessage.maxlength : '');
+    textDescription.setCustomValidity(textDescription.value.length > LENGTH_DESCRIPTION ? getMessage.maxLength : '');
   };
 
   var validationHashtags = function (evt) {
@@ -31,10 +31,10 @@
         evt.target.setCustomValidity(getMessage.beginning);
       }
       if (hashtag.length > LENGTH_NUMBER) {
-        evt.target.setCustomValidity(getMessage.onetaglength);
+        evt.target.setCustomValidity(getMessage.oneTagLength);
       }
       if (hashtag in spendHashtags) {
-        evt.target.setCustomValidity(getMessage.norepeat);
+        evt.target.setCustomValidity(getMessage.noRepeat);
       }
       spendHashtags[hashtag] = true;
     });
@@ -74,8 +74,8 @@
   };
 
   var resetSettings = function () { // Функция очищает все поля ввода
-    var allInput = imgUploadContainer.querySelectorAll('input');
-    allInput.forEach(function (input) {
+    var inputs = imgUploadContainer.querySelectorAll('input');
+    inputs.forEach(function (input) {
       input.value = '';
     });
 
@@ -84,5 +84,5 @@
   };
 
   submitPublish.addEventListener('click', resetSettings); // При нажатии на кнопку 'опубликовать' очищать поля и ставить кнопки по умолчанию
-  window.util.canselPicture.addEventListener('click', resetSettings); // Нажатие на кнопку #upload-cancel приводит к закрытию и очистке всех данных, введённых в форму редактирования
+  window.util.cancelPicture.addEventListener('click', resetSettings); // Нажатие на кнопку #upload-cancel приводит к закрытию и очистке всех данных, введённых в форму редактирования
 })();
