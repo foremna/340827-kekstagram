@@ -79,7 +79,7 @@
   var form = document.querySelector('.img-upload__form'); // форма редактирования изображения
 
   form.addEventListener('submit', function (evt) {
-    window.backend.upload(new FormData(form), function (response) {
+    window.backend.upload(new FormData(form), function () {
       window.util.formUploadPhoto.classList.add('hidden');
       window.popup.showSuccessMessage();
     });
