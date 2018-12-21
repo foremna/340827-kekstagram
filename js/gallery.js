@@ -7,22 +7,6 @@
     .querySelector('.picture');
 
     var fragment = document.createDocumentFragment();
-
-    // for (var i = 0; i < pictures.length; i++) {
-    //   var picturesCards = pictureTemplate.cloneNode(true);
-
-    //   var pictureImage = picturesCards.querySelector('.picture__img'); // фото карточки
-    //   var pictureLikes = picturesCards.querySelector('.picture__likes'); // лайки карточки
-    //   var pictureComments = picturesCards.querySelector('.picture__comments'); // описание карточки
-    //   var containerPictures = document.querySelector('.pictures'); // контейнер для хранения карточек
-
-    //   pictureImage.src = pictures[i].url; // на каждой иттерации цикла берем из объекта значение url-фотку из массива picture
-    //   pictureImage.dataset.id = i;
-    //   pictureLikes.textContent = pictures[i].likes; // на каждой иттерации цикла берем из объекта значение likes-лайки из массива picture
-    //   pictureComments.textContent = pictures[i].comments.length; // на каждой иттерации цикла берем из объекта значение comments-описание из массива picture
-    //   fragment.appendChild(picturesCards);
-    // }
-
     pictures.forEach(function (picture, i) {
       var picturesCards = pictureTemplate.cloneNode(true);
 

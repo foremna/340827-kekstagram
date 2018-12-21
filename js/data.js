@@ -8,8 +8,8 @@
   };
   var arrayPicturesDefault = [];
 
-  var recordPicturesArray = function () {
-    for (var i = 0; i < window.data.pictures.length; i++) { // записывает фотки в новый массив arrayPicturesDefault
+  var recordPicturesArray = function () { // записывает фотки в новый массив arrayPicturesDefault
+    for (var i = 0; i < window.data.pictures.length; i++) {
       arrayPicturesDefault[i] = window.data.pictures[i];
     }
   };

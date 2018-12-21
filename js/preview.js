@@ -66,19 +66,12 @@
     });
   };
 
-  var getInfoOpenPhoto = function (evt) { // при клике на фото, показывает информацию о нем
-    // for (var i = 0; i < window.data.pictures.length; i++) {
-    //   if (parseInt(evt.target.dataset.id, 10) === i) {
-    //     createOpenPhoto(window.data.pictures[i]);
-    //   }
-    // }
-
-    window.data.pictures.forEach(function (picture, i) { // должно работать, но не хочет
+  var getInfoOpenPhoto = function (evt) {
+    window.data.pictures.forEach(function (picture, i) { // при клике на фото, показывает информацию о нем
       if (parseInt(evt.target.dataset.id, 10) === i) {
         createOpenPhoto(picture);
       }
     });
-
   };
 
   picturesContainer.addEventListener('click', getInfoOpenPhoto);
