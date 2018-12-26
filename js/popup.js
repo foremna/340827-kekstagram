@@ -28,7 +28,7 @@
     });
 
     successTemplate.addEventListener('click', function (evt) {
-      if (!evt.target.closest('.success__inner') === null) {
+      if (evt.target.closest('.success__inner')) {
         main.removeChild(successTemplate);
       }
     });
@@ -48,7 +48,7 @@
     });
 
     document.addEventListener('click', function (evt) {
-      if (evt.target.closest('#error') === null) {
+      if (evt.target.closest('#error')) {
         main.removeChild(errorTemplate);
       }
     });

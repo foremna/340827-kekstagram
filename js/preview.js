@@ -14,6 +14,7 @@
   var openPhotoSocialComments = openPhoto.querySelector('.social__comments'); // блок с комментариями
   var openPhotoCommentsCaption = openPhoto.querySelector('.social__comment-count'); // счётчик комментариев
   var openPhotoCommentsCount = openPhoto.querySelector('.comments__count');
+  var btnCommentsLoader = openPhoto.querySelector('.social__comments-loader');
 
   var createElement = function (tag, className, text) {
     var certainElement = document.createElement(tag);
@@ -63,6 +64,13 @@
       if (i >= MORE_REQUIRED) {
         liElem.classList.add('visually-hidden');
       }
+
+      btnCommentsLoader.addEventListener('click', function () {
+        if (i > MORE_REQUIRED) {
+          liElem.classList.remove('visually-hidden'); // показывает все, но нет последнего
+        }
+        btnCommentsLoader.classList.add('visually-hidden');
+      });
     });
   };
 

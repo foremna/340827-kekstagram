@@ -9,7 +9,7 @@
   var PHOTO_RESIZE_MIN = 25;
   var PHOTO_RESIZE_MAX = 100;
 
-  var increaseZoomPhoto = function () {
+  var onDecreaseZoomPhoto = function () {
     var photoSize = parseInt(scaleControlValue.value, 10) - PHOTO_VALUE_STEP;
     if (photoSize >= PHOTO_RESIZE_MIN) {
       scaleControlValue.value = photoSize + '%';
@@ -19,7 +19,7 @@
     }
   };
 
-  var decreaseZoomPhoto = function () {
+  var onIncreaseZoomPhoto = function () {
     var photoSize = parseInt(scaleControlValue.value, 10) + PHOTO_VALUE_STEP;
     if (photoSize <= PHOTO_RESIZE_MAX) {
       scaleControlValue.value = photoSize + '%';
@@ -31,8 +31,8 @@
 
   var resizePhoto = function () {
     scaleControlValue.value = '100%';
-    scaleControlSmall.addEventListener('click', increaseZoomPhoto);
-    scaleControlBig.addEventListener('click', decreaseZoomPhoto);
+    scaleControlSmall.addEventListener('click', onDecreaseZoomPhoto);
+    scaleControlBig.addEventListener('click', onIncreaseZoomPhoto);
   };
 
   resizePhoto();
