@@ -41,36 +41,44 @@
     openPhotoLikes.textContent = pic.likes;
     openPhotoCaption.textContent = pic.description; // добавляет комментарии из массива
 
-    openPhotoCommentsCaption.innerHTML = 'N из ' + '<span class="comments-count">' + pic.comments.length + '</span>' + ' комментариев';
+    openPhotoSocialComments.innerHTML = '';
+    btnCommentsLoader.classList.remove('visually-hidden');
 
-    var comments = document.querySelectorAll('.social__comment');
-
-    var commentsResetOld = function () {
-      comments.forEach(function (comment) { // вариант 2
-        openPhotoSocialComments.removeChild(comment);
-      });
-    };
-
-    commentsResetOld();
-
-    pic.comments.forEach(function (comment, i) { // показывает все комменты, а не 5
+    var createCommentElement = function (comment) {
       var liElem = createElement('li', 'social__comment');
       var pElem = createElement('p', 'social__text', comment.message);
       var imageElem = createImage('social__picture', comment);
       liElem.appendChild(imageElem);
       liElem.appendChild(pElem);
-      openPhotoSocialComments.appendChild(liElem);
+      return liElem;
+    };
 
-      if (i >= MORE_REQUIRED) {
-        liElem.classList.add('visually-hidden');
+    var updateCommentsCountText = function (count, max) {
+      openPhotoCommentsCaption.innerHTML = count + ' из ' + '<span class="comments-count">' + max + '</span>' + ' комментариев';
+    };
+
+    var showComments = function (comments, start) {
+      var end = Math.min(start + MORE_REQUIRED, comments.length);
+      var commentElements = document.createDocumentFragment();
+
+      for (var i = start; i < end; i++) {
+        commentElements.appendChild(createCommentElement(comments[i]));
+      }
+      openPhotoSocialComments.appendChild(commentElements);
+
+      if (comments.length === end) {
+        btnCommentsLoader.classList.add('visually-hidden');
       }
 
-      btnCommentsLoader.addEventListener('click', function () {
-        if (i > MORE_REQUIRED) {
-          liElem.classList.remove('visually-hidden'); // показывает все, но нет последнего
-        }
-        btnCommentsLoader.classList.add('visually-hidden');
-      });
+      updateCommentsCountText(end, comments.length);
+
+      return end;
+    };
+
+    var currentCount = showComments(pic.comments, 0);
+
+    btnCommentsLoader.addEventListener('click', function () {
+      currentCount = showComments(pic.comments, currentCount);
     });
   };
 
